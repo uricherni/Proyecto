@@ -22,9 +22,23 @@ const styles = StyleSheet.create({
 });
 
 
-axios("api.com/peru", {
-  method: "GET",
-}).then(()=>{
 
-})
+  axios({
+      method: 'get',
+      url: `https://www.Api/Refugios.com`,
+      params: {
+          
+      id: idRefugio,
+  
+      }
+  }).then(response => {
+  
+
+
+      response.data.Search.forEach(info => {
+
+      
+
+      });
+  })
 
