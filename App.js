@@ -1,20 +1,46 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , Button} from 'react-native';
-import Main from './main'
-import Detalle from './detalle'
-import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import axios from 'axios';
+import { StyleSheet, Text, View, FlatList, SafeAreaView} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import Mascotas from './Mascotas';
+import { getMascotas } from './api/mascota';
 
 export default function App() {
+  const [mascotas, setMascotas] = useState([]);
+
+  const [name, setName] = useState('Andres Coello');
+
+  const fetchUser = async () => {
+    try {
+      const response = await getMascotas('29392', '28493');
+      console.log(response.data);
+      setMascotas(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  useEffect(() => {
+    console.log('soy el useEffect ' + name)
+    fetchUser();
+  }, [name]);
+
+  const renderItem = ({ item }) => (
+    <Text style={{color: 'red'}}>{item.name}</Text>
+  );
+
   return (
-    <View style={styles.container}>
-      <Text>hola</Text>
-      <StatusBar style="auto" />
-      <Mascotas />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View>
+        <FlatList
+          data={mascotas}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+        />
+        <Text>hola tengo {mascotas.length} mascotas</Text>
+        <StatusBar style="auto" />
+        <Mascotas />
+      </View>
+    </SafeAreaView>
   );
 }
 
