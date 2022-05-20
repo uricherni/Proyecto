@@ -2,12 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, SafeAreaView} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Mascotas from './Mascotas';
-import { getMascotas } from './api/mascota';
+import { getMascotas } from 'http://10.144.1.37:54117/Api/Refugios/getRefugio/1';
 
 export default function App() {
   const [mascotas, setMascotas] = useState([]);
 
-  const [name, setName] = useState('Andres Coello');
+  const [name, setName] = useState('Jade Arevalos');
 
   const fetchUser = async () => {
     try {
@@ -20,7 +20,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    console.log('soy el useEffect ' + name)
+    console.log('soy el useEffect' + name)
     fetchUser();
   }, [name]);
 
