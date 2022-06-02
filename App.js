@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, SafeAreaView} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
@@ -7,10 +6,18 @@ import axios from 'axios';
 export default function App() {
   const [mascotas, setMascotas] = useState([]);
     
-    useEffect(() => {
+  useEffect(() => {
         (async function(){
-        const respuesta = await axios.get('http://localhost:50947/api/Mascotas');
-        setMascotas(respuesta.data)
+   /*        fetch('http://192.168.0.6;/api/Mascotas')
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });*/
+      const respuesta = await axios.get('http://localhost:65443/api/Mascotas');
+       setMascotas(respuesta.data)
         
       })();
     },[]);
@@ -24,19 +31,22 @@ export default function App() {
         <Text style={styles.title}>{title3}</Text>
       </View>
     );
-    const listedemascote = mascotas.map(mascota =>
+    const listedemascote = mascotas.map(mascota =>{
+      return(
+
       <Item 
         title={mascota.Nombre }
         title2={mascota.Edad } 
         title3={mascota.Estado }
         keyExtractor={mascota=>mascota.idMascota}/>
+        )}
     );
 
 
 
   return (
     <>
-      <ol>{listedemascote}</ol>
+      {listedemascote}
     </>
   );
 }
