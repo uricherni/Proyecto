@@ -1,46 +1,43 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, SafeAreaView} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import Mascotas from './Mascotas';
-import { getMascotas } from 'http://10.144.1.37:54117/Api/Refugios/getRefugio/1';
+import axios from 'axios';
+
 
 export default function App() {
   const [mascotas, setMascotas] = useState([]);
+    
+    useEffect(() => {
+        (async function(){
+        const respuesta = await axios.get('http://localhost:50947/api/Mascotas');
+        setMascotas(respuesta.data)
+        
+      })();
+    },[]);
+    
+    console.log(mascotas)
+    
+    const Item = ({ title, title2, title3 }) => (
+      <View style={styles.item}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{title2}</Text>
+        <Text style={styles.title}>{title3}</Text>
+      </View>
+    );
+    const listedemascote = mascotas.map(mascota =>
+      <Item 
+        title={mascota.Nombre }
+        title2={mascota.Edad } 
+        title3={mascota.Estado }
+        keyExtractor={mascota=>mascota.idMascota}/>
+    );
 
-  const [name, setName] = useState('Jade Arevalos');
 
-  const fetchUser = async () => {
-    try {
-      const response = await getMascotas('29392', '28493');
-      console.log(response.data);
-      setMascotas(response.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
-  useEffect(() => {
-    console.log('soy el useEffect' + name)
-    fetchUser();
-  }, [name]);
-
-  const renderItem = ({ item }) => (
-    <Text style={{color: 'red'}}>{item.name}</Text>
-  );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        <FlatList
-          data={mascotas}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
-        <Text>hola tengo {mascotas.length} mascotas</Text>
-        <StatusBar style="auto" />
-        <Mascotas />
-      </View>
-    </SafeAreaView>
+    <>
+      <ol>{listedemascote}</ol>
+    </>
   );
 }
 

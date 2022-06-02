@@ -1,23 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import { Text, View } from 'react-native';
+import axios from 'axios';
 
 const Mascotas = () => {
-    const [mascotas, setMascotas] = useState([]);
-    
-    useEffect(() => {
-        (async function(){
-        const respuesta = await axios.get(`https://www.Api/Refugios/${idRefugio}`);
-        setMascotas(respuesta.data);
-        })();
-    }, []);
-
     return (
         <View>
-            {
-                mascotas.map(mascota => (
                     <>
                         <Text>
-                            { mascota.Edad }
+                            {  }
                         </Text>
                         <Text>
                             { mascota.Vacunas }
@@ -26,8 +16,7 @@ const Mascotas = () => {
                             { mascota.Raza }
                         </Text>
                     </>
-                ))
-            }
+             
         </View>
     )
 }
